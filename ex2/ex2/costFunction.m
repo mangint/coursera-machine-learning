@@ -23,11 +23,11 @@ grad = zeros(size(theta));
 h = sigmoid(X * theta);
 
 cost_pos = -y' * log(h) ;
-cost_neg = (1 - y') * log(1-h);
+cost_neg = - (1 - y') * log(1-h);
 
-J = (1/m) * (cost_pos - cost_neg);
+J = (1/m) * (cost_pos + cost_neg);
 
-%J = (1/m) * ( -y'.*log(sigmoid(X*theta)) - (1-y)'.*log(sigmoid(X*theta)) );
+%J = (1/m) * ( -y'*log(sigmoid(X*theta)) - (1-y)'*log(1-sigmoid(X*theta)) );
 
 grad = (1/m) * (X' * (h - y));
 

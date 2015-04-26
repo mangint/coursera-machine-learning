@@ -14,12 +14,15 @@ hold on
 
 if size(X, 2) <= 3
     % Only need 2 points to define a line, so choose two endpoints
-    plot_x = [min(X(:,2))-2,  max(X(:,2))+2]
+    plot_x = [min(X(:,2))-2,  max(X(:,2))+2]; % -2 et +2 sont optionnellement rajoutés pour rallongé la droite de decision boundary
+    %plot_x = [min(X(:,2))+5,  max(X(:,2))-10]; % test avec un raccourcissement au lieu d'un rallongement
 
     % Calculate the decision boundary line
-    %plot_y = (-1./theta(3)).*(theta(2).*plot_x + theta(1))
+    plot_y = ( (-1/theta(3)) * (theta(2)*plot_x + theta(1)) );
+    %plot_y = (plot_x * theta(2) + theta(1)) * (-1)/theta(3);
     %plot_y = [ (plot_x(1) * theta(2) + theta(1)) * (-1)/theta(3), (plot_x(2) *theta(2) + theta(1)) * (-1)/theta(3)]
-    plot_y = (plot_x .* theta(2) + theta(1)) .* (-1)./theta(3)
+    %plot_y = (plot_x .* theta(2) + theta(1)) .* (-1)./theta(3)
+
 
     % Plot, and adjust axes for better viewing
     plot(plot_x, plot_y)

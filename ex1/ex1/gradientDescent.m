@@ -36,7 +36,12 @@ for iter = 1:num_iters
     T_history(iter,1) = theta_inv(1);
     T_history(iter,2) = theta_inv(2);
 
-
+    if rem(iter,50) == 1 && alpha == 0.01
+        hold on; % keep previous plot visible
+        plot(X(:,2), X*theta, '-')
+        fprintf('Program paused. Press enter to continue. Iteration number %f \n', iter);
+        pause;
+    end
 
 
 

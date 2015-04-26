@@ -43,7 +43,7 @@ hold off;
 
 %% =========== Part 1: Regularized Logistic Regression ============
 %  In this part, you are given a dataset with data points that are not
-%  linearly separable. However, you would still like to use logistic 
+%  linearly separable. However, you would still like to use logistic   pas séparable par une droite y = ax + b 
 %  regression to classify the data points. 
 %
 %  To do so, you introduce more features to use -- in particular, you add
@@ -55,6 +55,7 @@ hold off;
 
 % Note that mapFeature also adds a column of ones for us, so the intercept
 % term is handled
+
 X = mapFeature(X(:,1), X(:,2));
 
 % Initialize fitting parameters
@@ -94,10 +95,10 @@ lambda = 1;
 options = optimset('GradObj', 'on', 'MaxIter', 400);
 
 % Optimize
-%[theta, J, exit_flag] = ...
-%	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
 [theta, J, exit_flag] = ...
-	fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);
+	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+%[theta, J, exit_flag] = ...
+%	fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);
 
 % Plot Boundary
 plotDecisionBoundary(theta, X, y);
@@ -115,5 +116,4 @@ hold off;
 p = predict(theta, X);
 
 fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
-
 
