@@ -30,9 +30,16 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% X = 5000 * 400
+% all_theta = 10 * 400
+% all_theta * X' =>  10, 400 * 400, 5000 
+
+all_10_p = all_theta * X'; % size: (10, 400) * (400, 5000)  => (10, 5000)
 
 
+p_vertical  = all_10_p'; % size(p_horizontal) = (5000, 10)
 
+[Z, p] = max(p_vertical, [], 2);
 
 
 

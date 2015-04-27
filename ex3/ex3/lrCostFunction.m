@@ -36,8 +36,15 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+theta_filtered = [0; theta(2:end)];
+h = sigmoid(X*theta);
 
+pos_cost = y' * -log(h);
+neg_cost = (1-y') * -log(1 - h);
 
+J = 1/m * (pos_cost  + neg_cost) + lambda/(2*m) * theta_filtered'*theta_filtered;
+
+grad = (1/m) * (X' * (h - y)) + ((lambda / m) * theta_filtered);
 
 
 
