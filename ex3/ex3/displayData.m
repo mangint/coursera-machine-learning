@@ -4,7 +4,7 @@ function [h, display_array] = displayData(X, example_width)
 %   stored in X in a nice grid. It returns the figure handle h and the 
 %   displayed array if requested.
 
-% Set example_width automatically if not passed in
+% Set example_width automatically if not passed in 
 if ~exist('example_width', 'var') || isempty(example_width) 
 	example_width = round(sqrt(size(X, 2)));
 end
@@ -17,17 +17,22 @@ colormap(gray);
 example_height = (n / example_width);
 
 % Compute number of items to display
+% m = nombre d'exemples à montrer
+% display_rows le nb de rang
+% display_col le nb de colonnes
 display_rows = floor(sqrt(m));
 display_cols = ceil(m / display_rows);
 
 % Between images padding
 pad = 1;
 
-% Setup blank display
+% Setup blank display ==> pour contenir tous les patchs et le padding entre les patchs
 display_array = - ones(pad + display_rows * (example_height + pad), ...
                        pad + display_cols * (example_width + pad));
 
-% Copy each example into a patch on the display array
+
+% Copy each example into a patch on the display array ==> un patch est un carré/rectangle correspondant à un exemple X(i,:)
+% m correspond au nombre de cases à remplir
 curr_ex = 1;
 for j = 1:display_rows
 	for i = 1:display_cols
@@ -38,6 +43,8 @@ for j = 1:display_rows
 		
 		% Get the max value of the patch
 		max_val = max(abs(X(curr_ex, :)));
+		a = pad + (j - 1) * (example_height + pad) + (1:example_height); % test thib
+		b = pad + (i - 1) * (example_width + pad) + (1:example_width); % test thib
 		display_array(pad + (j - 1) * (example_height + pad) + (1:example_height), ...
 		              pad + (i - 1) * (example_width + pad) + (1:example_width)) = ...
 						reshape(X(curr_ex, :), example_height, example_width) / max_val;
