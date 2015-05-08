@@ -24,17 +24,18 @@ p = zeros(size(X, 1), 1);
 % size(Theta1) ==> 25,401   /  size(Theta1') ==> 401, 25
 % size(Theta2) ==> 10, 26   /  size(Theta2') ==> 26, 10 
 A1_biased = [ones(size(X, 1),1), X];  %size(A1) ==> 5000, 401
+
 z2 = A1_biased * Theta1';
+
 A2_non_biased = sigmoid(z2);
-A2_biased = [ones(size(A2_non_biased, 1), 1), A2_non_biased];
+
+A2_biased = [ones(size(A2_non_biased, 1), 1), A2_non_biased]; % size(A2) is 5000, 25
+
 z3 = A2_biased * Theta2';
-A3 = sigmoid(z3);
+
+A3 = sigmoid(z3); % size(A3) is 5000, 10
 
 [max_horizontal, p] = max(A3, [], 2);
-
-
-
-
 
 
 % =========================================================================
