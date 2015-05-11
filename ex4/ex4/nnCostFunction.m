@@ -38,6 +38,40 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+
+% Theta1 has size 25 x 401
+% Theta2 has size 10 x 26
+% y has size 5000 x 1
+K = num_labels;
+
+%Y = eye(K)(y,:) % [5000, 10]  (only on Octave, not in Matlab)
+
+Y = zeros(m,K);
+for i = 1:m
+	Y(i, y(i)) = 1;
+end; 
+
+% Part 1
+
+
+a1 = [ones(m, 1), X]; % results in [5000, 401]
+a2 = sigmoid(Theta1 * a1'); % results in [25, 5000]
+a2 = [ones(1, size(a2, 2)); a2]; % results in [26, 5000]
+h = sigmoid(Theta2 * a2); % results in [10, 5000]
+
+costPositive = -Y .* log(h)';
+costNegative =  (1 - Y) .* log(1 - h)';
+cost = costPositive - costNegative;
+
+J = (1/m) * sum(cost(:));
+
+% Part 1.4 - Regularization
+
+Theta1Filtered = Theta1(:,2:end);
+Theta2Filtered = Theta2(:,2:end);
+reg = (lambda / (2*m)) * (sum(sum((Theta1Filtered.^2)))  + sum(sum((Theta2Filtered.^2))) );
+
+J = J + reg;
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of

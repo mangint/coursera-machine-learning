@@ -21,20 +21,26 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
-% size(Theta1) ==> 25,401   /  size(Theta1') ==> 401, 25
-% size(Theta2) ==> 10, 26   /  size(Theta2') ==> 26, 10 
-A1_biased = [ones(size(X, 1),1), X];  %size(A1) ==> 5000, 401
+%% size(Theta1) ==> 25,401   /  size(Theta1') ==> 401, 25
+%% size(Theta2) ==> 10, 26   /  size(Theta2') ==> 26, 10 
 
+%% Layer 1: A(1)_biased => dimension: 5000 * 401 
+A1_biased = [ones(size(X, 1),1), X];  %size(A1) ==> 5000, 400+1
+
+%% Calculation to find Layer 2 : A(2)_biased => dimension: 5000 * 25+1 
 z2 = A1_biased * Theta1';
 
 A2_non_biased = sigmoid(z2);
 
-A2_biased = [ones(size(A2_non_biased, 1), 1), A2_non_biased]; % size(A2) is 5000, 25
+A2_biased = [ones(size(A2_non_biased, 1), 1), A2_non_biased]; % size(A2) is 5000, 25+1
+
+%% Calculation to find Layer 3 : A(3)_non_biased => dimension: 5000 * 10
 
 z3 = A2_biased * Theta2';
 
 A3 = sigmoid(z3); % size(A3) is 5000, 10
 
+%% Calculation to return the number with the highest probability => dimension of p: 5000*1
 [max_horizontal, p] = max(A3, [], 2);
 
 
