@@ -46,7 +46,7 @@ K = num_labels;
 
 %Y = eye(K)(y,:) % [5000, 10]  (only on Octave, not in Matlab)
 
-Y = zeros(m,K);
+Y = zeros(m,K); % [5000, 10]
 for i = 1:m
 	Y(i, y(i)) = 1;
 end; 
@@ -55,11 +55,11 @@ end;
 
 
 a1 = [ones(m, 1), X]; % results in [5000, 401]
-a2 = sigmoid(Theta1 * a1'); % results in [25, 5000]
+a2 = sigmoid(Theta1 * a1'); % [25, 401] * [401, 5000] =>results in [25, 5000]
 a2 = [ones(1, size(a2, 2)); a2]; % results in [26, 5000]
-h = sigmoid(Theta2 * a2); % results in [10, 5000]
+h = sigmoid(Theta2 * a2); % [10, 26]*[26, 5000]=>results in [10, 5000]
 
-costPositive = -Y .* log(h)';
+costPositive = -Y .* log(h)'; % [5000, 10] [5000, 10] => [5000, 10]
 costNegative =  (1 - Y) .* log(1 - h)';
 cost = costPositive - costNegative;
 
@@ -69,7 +69,7 @@ J = (1/m) * sum(cost(:));
 
 Theta1Filtered = Theta1(:,2:end);
 Theta2Filtered = Theta2(:,2:end);
-reg = (lambda / (2*m)) * (sum(sum((Theta1Filtered.^2)))  + sum(sum((Theta2Filtered.^2))) );
+reg = (lambda / (2*m)) * (sum(Theta1Filtered(:).^2)  + sum(Theta2Filtered(:).^2) );
 
 J = J + reg;
 %
@@ -87,6 +87,10 @@ J = J + reg;
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
+
+
+
+
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
