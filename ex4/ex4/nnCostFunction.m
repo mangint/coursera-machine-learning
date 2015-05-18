@@ -101,30 +101,27 @@ J = J + reg;
 Delta1 = 0;
 Delta2 = 0;
 
-
 for t = 1:m
-	% step 1
+	% Step 1 - Forward propagation: z_i and a_i
 	a1 = [1 X(t,:)]'; % [5000 400] => [1,400] => [1,401] => [401,1]
 	z2 = Theta1 * a1; % [25, 401] * [401 1] => [25,1]
 	a2 = [1; sigmoid(z2)]; % [25,1] => [26,1]
 	z3 = Theta2 * a2; % [10, 26] * [26,1] => [10, 1]
 	a3 = sigmoid(z3); % [10, 1]
 
-	% step 2
+	% Step 2a - Error calculations: output layer
 	yt = Y(:,t); % [10,5000] => [10,1]
-
 	d3 = a3 - yt; % [10,1] = [10,1] => [10,1]
 
-	% step 3
+	% Step 2b - Error calculations: hidden layers
 	d2 = Theta2Filtered' * d3 .* sigmoidGradient(z2); % [25,10] * [10,1] => [25,1]
 
-	% step 4
+	% Step 3a - Gradient calculation using a_i and the error d_i
 	Delta2 = Delta2 + d3 * a2';  % [10,1] * [1,26] => [10,26]
 	Delta1 = Delta1 + d2 * a1'; % [25,1] * [1, 401] => [25, 401]
-
 end;
 
-% step 5
+% Step 3b - Gradient calculation: division by the number of training examples used
 % Delta1 = [25, 401]
 % Delta2 = [10, 26]
 % Theta1_grad = [25, 401]
@@ -149,7 +146,6 @@ Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + ((lambda/m) * Theta2Filtered);
 % =========================================================================
 
 % Unroll gradients
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
+grad = [Theta1_grad(:) ; Theta2_grad(:)]; % size: 25*401 + 10 * 26 => a long column 
 
 end
