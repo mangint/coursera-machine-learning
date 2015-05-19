@@ -54,10 +54,13 @@ error_val   = zeros(m, 1);
 % ---------------------- Sample Solution ----------------------
 
 
-
-
-
-
+for i = 1:m
+	[trained_theta] = trainLinearReg(X(1:i,:), y(1:i),lambda);
+	% !!! The training error shouldnt include the regularization term !!! => lamda = 0
+	error_train(i) = linearRegCostFunction(X(1:i,:), y(1:i), trained_theta, 0);
+	% !!! The cross validation error should be computed over the !entire! cross validation set
+	error_val(i) = linearRegCostFunction(Xval, yval, trained_theta,0);
+end
 
 % -------------------------------------------------------------
 

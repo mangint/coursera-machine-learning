@@ -19,15 +19,24 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+% theta => [2,1]
+% X => [m,2]
+% y => [m,1]
 
 
+J = 1 / (2*m) * ( X*theta - y)' * ( X*theta - y);
 
+% theta => [2,1]
+thetaFiltered = theta(2:end,:);
 
+reg_cost = lambda / (2*m) * thetaFiltered' * thetaFiltered;
 
+J = J + reg_cost;
 
-
-
-
+% grad => [2,1]
+grad = 1/ (m)* (X'*(X*theta - y)); % [m,2]*[2,1] - [m,1] => [m,1] * [m,2]
+reg_grad = lambda / m * thetaFiltered; 
+grad(2:end,1) = grad(2:end,1) + reg_grad;
 
 
 % =========================================================================
