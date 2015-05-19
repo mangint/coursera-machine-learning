@@ -22,12 +22,30 @@ sigma = 0.3;
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
+%%%increments = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+increments = [0.1, 1];
+incrementC = increments;
+incrementSigma = increments;
 
+best = zeros(3,1);
+trialNum = 0;
+for tryC = incrementC
+	for tryS = incrementSigma
+		trialNum = trialNum + 1;
+		fprintf(['Attempt #%d: C = %f, sigma = %f\n'], trialNum, tryC, tryS);
+		model = svmTrain(X, y, tryC, @(x1, x2) gaussianKernel(x1, x2, tryS) );
+		prediction = svmPredict(model, Xval);
+		predError = mean(double(prediction == yval));
+		if (predError > best(1))
+			fprintf(['Best so far %f\n'], predError);
+			best = [predError, tryC, tryS];
+		end
+	end
+end
 
-
-
-
-
+fprintf(['\n Best Found: C = %f, sigma = %f\n'], best(2), best(3));
+C = best(2)
+sigma = best(3)
 
 % =========================================================================
 
