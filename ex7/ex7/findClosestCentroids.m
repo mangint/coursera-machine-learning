@@ -21,12 +21,23 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+%X [m,n]
+%X(i,:) [1,n]
+%Centroids [K,n]
+%idx [m,1]
+m = size(X,1);
 
-
-
-
-
-
+for i = 1:m
+	idx(i) = 1;
+	distance_closest_temp = (X(i,:) - centroids(idx(i),:)) * (X(i,:) - centroids(idx(i),:))';
+	for	j = 2:K
+		distance_Xi_jCentroid = (X(i,:) - centroids(j,:)) * (X(i,:) - centroids(j,:))';
+		if  distance_Xi_jCentroid < distance_closest_temp 
+			idx(i) = j;
+			distance_closest_temp = distance_Xi_jCentroid;
+		end
+	end
+end
 % =============================================================
 
 end

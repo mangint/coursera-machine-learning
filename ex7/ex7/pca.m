@@ -20,9 +20,10 @@ S = zeros(n);
 %       number of examples).
 %
 
+Sigma = X' * X / m; % don't forget to divide pby m !!!
 
 
-
+[U,S,V] = svd(Sigma);
 
 
 
