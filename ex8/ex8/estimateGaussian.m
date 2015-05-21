@@ -21,12 +21,13 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
+%mu = mean(X);  % mean => return column mean
+%sigma2 = var(X,1);
 
-
-
-
-
-
+mu = (sum(X)/m)';
+for i = 1:n
+	sigma2(i,1) = (X(:,i) - mu(i,1))' * (X(:,i) - mu(i,1))/m;
+end
 
 
 
